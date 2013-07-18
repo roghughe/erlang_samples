@@ -1,5 +1,6 @@
 %% @author Roger
-%% @doc @todo Add description to clause_case.
+%% @doc Demonstrates function clauses and equivalent(?) implementation using a case expression.
+ 
 
 
 -module(clause_case).
