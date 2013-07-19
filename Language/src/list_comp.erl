@@ -27,7 +27,7 @@ ex2() ->
 	[math:pow(X,2) || X <- MyList, X < 6, X rem 2 == 0].
 
 %% Applying List Comprehension to tuples - with filtering
-%% All tuples that are tagged with a 'rectangle' and have an area greater than 50
+%% Calculate the area of all tuples that are tagged with a 'rectangle' and have an area greater than 50
 ex3() ->
 	Shapes = [{rectangle,100,200},{rectangle,10,2},{square,25},{rectangle,30,100}],
 	
