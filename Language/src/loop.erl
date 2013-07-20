@@ -9,11 +9,8 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([test_render/0,render/1]).
+-export([render/1,to_html/1]).
 
-%% Test method for the rendering of HTML
-test_render() ->
-	render(["Fred","Bill","Jim","Tim"]).
 	
 %% Render the HTML to display an unordered list
 %% Guard the input arg at the highest level

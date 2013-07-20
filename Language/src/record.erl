@@ -34,10 +34,7 @@ create() ->
 	%% Unused - demo partial record creation
 	_Record2 = #customer{email="info@captaindug.com"},
 
-	Record3 = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
-
-	%% Just to Take a look
-	io:format("Record3 = ~p~n",[Record3]).
+	#customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"}.
 
 %% Accessing record fields
 access() ->
@@ -47,34 +44,30 @@ access() ->
 	Name = Record#customer.name,
 	Email = Record#customer.email,
 	Phone = Record#customer.phone,
-
-	io:format("The record fields are: Name = ~p  Email = ~p and Phone = ~p~n" , [Name,Email,Phone]).
+	{Name,Email,Phone}.
 
 %% Demo the updating of a record by creating a new record (Single Assignment AKA immutability in Java)
 update() ->
-	
 	Record = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
 
-	Record2 = #customer{name=Record#customer.name, email=Record#customer.email, phone="555 0987"},
-
-	io:format("Record3 = ~p~n",[Record2]).
+	#customer{name=Record#customer.name, email=Record#customer.email, phone="555 0987"}.
 
 %% Update a record as part of passing an arg to another function
 update2() ->
 	
 	Record = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
 
-	show_phone(Record).
+	show_phone(Record),
+	contact_result(Record).
 
 
 %% Update a record as part of passing an arg to another function
 %% Throw an exception as the phone number is missing
-update3() ->
-	
+update3() ->	
 	%% Incomplete - missing phone number
 	Record = #customer{name="Roger Hughes"},
 
-	show_phone(Record).
+	contact_result(Record).
 
 
 %% Better example of update3/0 - adds an exception in to handle the error as this should be recoverable
@@ -86,7 +79,8 @@ update4() ->
 		
 		show_phone(Record)
 	catch 
-		_:_ -> io:fwrite("Missing Phone Number~n")
+		_:_ -> io:fwrite("Missing Phone Number~n"),
+		missing
 	end.
 
 %% Accessing record fields defined in a header file
@@ -96,8 +90,7 @@ access_ext() ->
 
 	Street = Address#address.line1,
 	Town = Address#address.town,
-
-	io:format("The record fields are: Street = ~p  and Town = ~p~n" , [Street,Town]).
+	{Street,Town}.
 
 
 
@@ -110,3 +103,6 @@ access_ext() ->
 %% email field is ignored as it's not used
 show_phone(#customer{name=Name, phone=Phone}) when Phone =/= undefined ->
 	io:format("Contact: ~s, on ~s~n",[Name,Phone]).
+
+contact_result(#customer{name=Name, phone=Phone}) ->
+	{Name,Phone}.

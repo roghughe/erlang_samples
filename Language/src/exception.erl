@@ -7,7 +7,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([catch_all/0,catch_me/1,test_catch/0,tryof/1,after_test/0,stack/1]).
+-export([catch_all/0,catch_me/1,tryof/1,after_clause/0,stack/1]).
 
 %% Demonstrates how to catch all exceptions
 catch_all() ->
@@ -17,11 +17,6 @@ catch_all() ->
 	catch
 		_:_ -> io:format("Catch All~n")
 	end.
-
-%% Test catching different types of exceptions
-%% Return the results from each exception as a list - terminated by [] to make it a proper list
-test_catch() ->
-	[catch_me(oops) | [catch_me(throw) | [catch_me(exit) | [catch_me(error) | [] ]]]]. 
 
 
 %% Demonstrates catching different exceptions and different types of exceptions
@@ -49,9 +44,9 @@ tryof(Val) ->
 	end.
 
 %% Demonstrate the use of 'after' in a try - catch clause
-after_test() ->
+after_clause() ->
 
-	{ok,FileHandle} = file:open("/tmp/fred.txt", [read]),
+	{ok,FileHandle} = file:open(filename(), [read]),
 	try 
 		Text = read_file(FileHandle),
 		io:format(Text)
@@ -96,4 +91,9 @@ read_file(Device) ->
         eof  -> [];
         Line -> Line ++ read_file(Device)
     end.
+
+filename() ->
+	Dir = filename:dirname(?FILE),
+	FileName = Dir ++ "/../test_resources/fred.txt".
+
 

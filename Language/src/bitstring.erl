@@ -33,7 +33,8 @@ ex4() ->
 %% How to filtre bits out of bitstring
 ex5() ->
 	<<Version:4, Size:4>> = <<32>>,
-	io:fwrite("Version: ~w  Size: ~w~n",[Version,Size]).
+	{Version,Size}.
+	
 
 %% Bitstring comprehension
 %% Packs the numbers in a list at 3 bits per integer (X:3) in to a bitstring 

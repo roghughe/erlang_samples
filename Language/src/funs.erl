@@ -1,5 +1,5 @@
 %% @author Roger
-%% @doc @todo Add description to funs.
+%% @doc 'fun' examples
 
 
 -module(funs).
@@ -7,10 +7,10 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([demo_funs/0,yes_no/3,render/2]).
+-export([anon_fun/0,anon_fun2/0,anon_fun3/0,yes_no/3,local_fun/0,remote_module_fun/0,render/2,to_html/1]).
 
-%% Demo all the different cases using funs and the clause_case module
-demo_funs() ->
+%% An anonymous fun
+anon_fun() ->
 	
 	% Anonymous fun 
 	Anonymous = fun (A,B) ->
@@ -25,23 +25,27 @@ demo_funs() ->
 				end
 				end,
 
-	yes_no(Anonymous,false,false),
+	yes_no(Anonymous,false,false).
 	
-	% Same anonymouse example using logic to replace the case
+% Same anonymouse example using logic to replace the case
+anon_fun2() ->
 	Anon2 = fun(C,D) -> C or D end,
 	
-	yes_no(Anon2,true,false),
+	yes_no(Anon2,true,false).
 	
-	% Same anonymous example inlined, without a variable
-	yes_no(fun(C,D) -> C or D end,false,true),
+% Same anonymous example inlined, without a variable
+anon_fun3() ->
+	yes_no(fun(C,D) -> C or D end,false,true).
 
 	
+% Local funs
+local_fun() ->
 	
-	% Local funs
 	Local = fun failing_or/2,
-	yes_no(Local,false,false),
-	
-	% Remote module funs
+	yes_no(Local,false,false).
+
+% Remote module funs
+remote_module_fun() ->
 	Funs = fun clause_case:either_or_both1/2,
 	yes_no(Funs,true,false).
 
