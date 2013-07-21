@@ -94,6 +94,7 @@ read_file(Device) ->
 
 filename() ->
 	Dir = filename:dirname(?FILE),
-	FileName = Dir ++ "/../test_resources/fred.txt".
+	FileName = Dir ++ "/../test_resources/fred.txt",
+	FileName.
 
 

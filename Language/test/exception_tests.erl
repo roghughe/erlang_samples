@@ -31,7 +31,7 @@ after_clause_test() ->
 
 %% This returns a stacj trace, but that might change depending upon install location
 stack_test() ->
-	_RetVal = exception:skack(oops).
+	_ = exception:stack(oops).
 
 
 %% ====================================================================

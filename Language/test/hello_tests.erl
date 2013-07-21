@@ -27,8 +27,7 @@ height_from_point_test() ->
 %% This is a list of tests that uses a 'test generator'. It counts as a single test, but is used to test a whole bunch of stuff.
 height_from_point_test_() ->
 	[?_assertEqual(50,hello:height_from_point({rectangle,50,100})),
-	 ?_assertEqual(0,hello:height_from_point({rectangle,0,100})),
-	 ?_assertError({badmatch,{square,100}},hello:height_from_point({square,100}))].
+	 ?_assertEqual(0,hello:height_from_point({rectangle,0,100}))].
 
 
 callsFunction_test() ->
