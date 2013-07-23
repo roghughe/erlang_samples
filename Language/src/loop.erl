@@ -96,7 +96,7 @@ contains([],_) ->
 sum4(List) ->
 	sum4(List, length(List), 0).
 
-%% @docTail recursive sum of an array
+%% @doc Tail recursive sum of an array
 sum4([Item | TheRest],Length,Total) when Length > 0 ->
 	sum4(TheRest, Length -1,Total + Item);
 sum4(_,0,Total) ->
