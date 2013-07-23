@@ -1,0 +1,12 @@
+{application, language,
+ [
+  {description, "Language examples"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { language, []}},
+  {env, []}
+ ]}.

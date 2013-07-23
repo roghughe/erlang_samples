@@ -46,8 +46,9 @@ tryof(Val) ->
 %% Demonstrate the use of 'after' in a try - catch clause
 after_clause() ->
 
-	{ok,FileHandle} = file:open(filename(), [read]),
+	{ok,FileHandle} = file:open("/tmp/fred.txt", [read,write]),
 	try 
+		write_file(FileHandle,"line1~nline2~nline3~n"),
 		Text = read_file(FileHandle),
 		io:format(Text)
 	%% Obviously add catch clause in here if required
@@ -92,9 +93,8 @@ read_file(Device) ->
         Line -> Line ++ read_file(Device)
     end.
 
-filename() ->
-	Dir = filename:dirname(?FILE),
-	FileName = Dir ++ "/../test_resources/fred.txt",
-	FileName.
+%% Write some junk into the fie
+write_file(FileHandle,Text) ->
+	io:fwrite(FileHandle,Text,[]).
 
 

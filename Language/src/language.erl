@@ -1,8 +1,9 @@
 %% @author Roger
-%% @doc @todo Add description to app.
+%% @doc This is a set of languge samples.
+%% Note that the language.app.src file is there for rebar
 
 
--module(app).
+-module(language).
 -behaviour(application).
 -export([start/2, stop/1]).
 
