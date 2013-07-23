@@ -10,7 +10,7 @@
 -export([run/0,out/0,out2/0,print_this/1,hello_process/0,do_link1/0,do_link2/0,chain/1,monitor_you/0,
 		 my_registered/0,is_init_process_running/0,is_init_process_running2/0,my_register/0]).
 
-%% Spawn a ping/0 process and send it a message
+%% @doc Spawn a ping/0 process and send it a message
 run() ->
 	io:fwrite("Ping~n"),
 	Pid = spawn(fun ping/0),
@@ -24,6 +24,7 @@ run() ->
 			ok
 	end.
 
+%% @doc Reply to any message with a pong
 ping() ->
 	receive
 		% This is the Sender's PID
@@ -34,7 +35,7 @@ ping() ->
 
 
 
-%% Example of sending data to a process
+%% @doc Example of sending data to a process
 out() ->
 	io:fwrite("Printing~n"),
 	Pid = spawn(fun print/0),
@@ -42,6 +43,7 @@ out() ->
 	Pid ! {message,is,a,tuple},
 	sent.
 
+%% @doc Receive a message and print the contents
 print() ->
 	receive
 		Message -> 
@@ -51,7 +53,7 @@ print() ->
 
 
 
-%% Example of sending data to a process using a differnt spawn function
+%% @doc Example of sending data to a process using a differnt spawn function
 out2() ->
 	io:fwrite("Printing2~n"),
 	
@@ -62,7 +64,7 @@ out2() ->
 	Pid ! "This is my message",
 	sent.
 
-%% Another print method - prints a message. This method must be exported to be called using the out2 version of spawn
+%% @doc Another print method - prints a message. This method must be exported to be called using the out2 version of spawn
 print_this(Arg) ->
 	receive
 		Message -> 
@@ -71,7 +73,7 @@ print_this(Arg) ->
 
 
 
-%% Create a process that calls hello:hello_world()
+%% @doc Create a process that calls hello:hello_world()
 hello_process() ->
 	
 	% In this case the print_this function has to be exported
@@ -82,32 +84,32 @@ hello_process() ->
 
 
 
-%% Example for spawn_link -- myproc exits before this func has time to complete
+%% @doc Example for spawn_link -- myproc exits before this func has time to complete
 do_link1() ->
 	spawn_link(fun myproc/0),
 	timer:sleep(1000),
 	io:fwrite("On No! (This won't get printed)~n").
 	
-%% A proc that waits and exits
+%% @doc A proc that waits and exits
 myproc() ->
 	timer:sleep(500),
 	exit('Done').  % Note the apostrophies around the atom owing to the capital D
 
 
 
-%% Spawn an link many processes - all of which will die
+%% @doc Spawn an link many processes - all of which will die
 do_link2() ->
 	spawn(fun start_chain/0),
 	ok.
 
-%% Start the chanin of processes. This extra step is here so
+%% @doc Start the chanin of processes. This extra step is here so
 start_chain() ->
 	process_flag(trap_exit, true),
 	spawn(?MODULE, chain, [10]),
 	timer:sleep(1000).
 
 
-%% Chains lots of do nothing processes together
+%% @doc Chains lots of do nothing processes together
 chain(0) ->
 	io:format("Chain 0~n"),
 	receive
@@ -124,8 +126,8 @@ chain(N) ->
 		_ -> ok
 	end.
 
-%% An example of a monitor. A monitor gets a message when a child process dies, but doesn't die itself
-%% @see http://www.erlang.org/doc/man/erlang.html#monitor-2
+%% @doc An example of a monitor. A monitor gets a message when a child process dies, but doesn't die itself
+%% See http://www.erlang.org/doc/man/erlang.html#monitor-2
 %% Also demonstrates message selection using pattern matching
 monitor_you() ->
 	Pid = spawn(fun myproc/0),
@@ -144,12 +146,12 @@ monitor_you() ->
 	end.
 
 
-%% Get hold of a list of all the requstered processes
+%% @doc Get hold of a list of all the requstered processes
 my_registered() ->
 	registered().
 
 
-%% Return true if the system process 'init' is running
+%% @doc Return true if the system process 'init' is running
 %% There is no list.contains(value) in erlang, so filtre the list and check the size of the result
 %% Should return true as the init process is a system process that's usually running
 is_init_process_running() ->
@@ -162,7 +164,7 @@ is_init_process_running() ->
 		Length > 1 -> throw({oops,"Muliple init processes"})
 	end.
 		 
-%% Return true if the system process 'init' is running
+%% @doc Return true if the system process 'init' is running
 %% There is no list.contains(value) in erlang, so use a list comprehension to parse the list lookinh for 'init'
 %% Should return true as the init process is a system process that's usually running
 is_init_process_running2() ->
@@ -176,7 +178,7 @@ is_init_process_running2() ->
 		Length > 1 -> throw({oops,"Muliple init processes"})
 	end.
 		 
-%% A generic is_process running function
+%% @doc A generic is_process running function
 is_process_running(Process) ->
 	Result = [ X || X <- registered(), X =:= Process],
 	
@@ -189,7 +191,7 @@ is_process_running(Process) ->
 
 
 
-%% Register a process (it should appear in the list of registered processes afterwards)
+%% @doc Register a process (it should appear in the list of registered processes afterwards)
 my_register() ->
 
 	Process = my_proc_name,
@@ -210,7 +212,7 @@ my_register() ->
 	R2.
 
 
-%% Another proc that waits and exits
+%% @doc Another proc that waits and exits
 myproc2() ->
 	timer:sleep(500),
 	exit('Done').  % Note the apostrophies around the atom owing to the capital D

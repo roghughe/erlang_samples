@@ -29,33 +29,34 @@ all(Name,Point,List) ->
 	Height.
 
 
-%% Hello World
+%% @doc Hello World
 hello_world() -> 
 	io:fwrite("Hello World!~n").
 
+%% @doc Simple hello_world + 1 application
 greet(Name) ->
 	Out = "Hello " ++ Name,  		% Concatenate Strings
 	io:fwrite("~p~n",[Out]).
 
 
-%% Returns the Height value of the point Tuple
+%% @doc Returns the Height value of the point Tuple
 %% Example of Pattern matching
 height_from_point(Point) ->
 	{rectangle,Height,_} = Point,	% _ means wildcard in this case
 	% Return the height part of the tuple
 	Height.	                        
 
-%% Example of calling another function
+%% @doc Example of calling another function
 callsFunction(Name) ->
 	_Unused = 10,            % Unused, but the _ means no warning
 	Out = concat_string("Hello ", Name),  % Concatenate Strings
 	write(Out).
 
-%% Calls the standard reverse function in the lists module       
+%% @doc Calls the standard reverse function in the lists module       
 reverse_list(List) ->
 	lists:reverse(List).
 
-%% Function Clause with a guard
+%% @doc Function Clause with a guard
 eitherOrBoth(true,A) when is_boolean(A) ->
 	true;
 eitherOrBoth(A,true) when is_boolean(A) ->
@@ -73,9 +74,9 @@ eitherOrBoth(false,false)  ->
 write(Out) ->
 	io:fwrite("~p~n",[Out]).
 
-%% Concat two String, with a not very good way of guarding in that Strings are a specific type of list rather than a general data type
+%% @doc Concat two String, with a not very good way of guarding in that Strings are a specific type of list rather than a general data type
 %% Also see: is_boolean(), is_integer(), is_atom() - 
-%% @see http://en.wikibooks.org/wiki/Erlang_Programming/guards
+%% See http://en.wikibooks.org/wiki/Erlang_Programming/guards
 concat_string(A,B) when is_list(A), is_list(B) ->
 	A ++ B.
 

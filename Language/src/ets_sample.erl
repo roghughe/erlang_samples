@@ -11,7 +11,7 @@
 %% ====================================================================
 -export([myproc/4,create/0]).
 
-%% Create an ETS table and insert some data 
+%% @doc Create an ETS table and insert some data 
 create() ->
 	Table = ets:new(contacts,[set,named_table]),
 	ets:insert(Table,{"Roger",roghughe@captaindebug.com,"555 1234"}),
@@ -23,7 +23,7 @@ create() ->
 	end.
 
 
-%% Proc that reads the table
+%% @doc Proc that reads the table
 myproc(_,_,Owner,0) -> 
 	timer:sleep(100),
 	%% Send a message to the owning process to delte the table
@@ -43,17 +43,17 @@ myproc(Table,User,Owner,N) ->
 %% ====================================================================
 
 
-%% The table delete has to be done by the owning process
+%% @doc The table delete has to be done by the owning process
 delete_table(Table) ->
 	ets:delete(Table),
 	io:fwrite("Table Deleted~n").
 
-%% Read a table and print it's info
+%% @doc Read a table and print it's info
 print(Table) ->
 	Info = ets:info(Table),
 	io:format("Info: ~p~n",[Info]).
 
-%% Read a table and print the contents
+%% @doc Read a table and print the contents
 print(Table,User) ->
 	[{_,Email,Phone}] = ets:lookup(Table,User),
 	io:format("User: ~p, Contact Email ~p Phone: ~p~n",[User,Email,Phone]).

@@ -9,7 +9,7 @@
 %% ====================================================================
 -export([anon_fun/0,anon_fun2/0,anon_fun3/0,yes_no/3,local_fun/0,remote_module_fun/0,render/2,to_html/1]).
 
-%% An anonymous fun
+%% @doc An anonymous fun
 anon_fun() ->
 	
 	% Anonymous fun 
@@ -27,31 +27,31 @@ anon_fun() ->
 
 	yes_no(Anonymous,false,false).
 	
-% Same anonymouse example using logic to replace the case
+%% @doc Same anonymouse example using logic to replace the case
 anon_fun2() ->
 	Anon2 = fun(C,D) -> C or D end,
 	
 	yes_no(Anon2,true,false).
 	
-% Same anonymous example inlined, without a variable
+%% @doc Same anonymous example inlined, without a variable
 anon_fun3() ->
 	yes_no(fun(C,D) -> C or D end,false,true).
 
 	
-% Local funs
+%% @doc Local funs
 local_fun() ->
 	
 	Local = fun failing_or/2,
 	yes_no(Local,false,false).
 
-% Remote module funs
+%% Remote module funs
 remote_module_fun() ->
 	Funs = fun clause_case:either_or_both1/2,
 	yes_no(Funs,true,false).
 
 
 
-% Evaluate the 'Funs' function to output yes or no.
+%% Evaluate the 'Funs' function to output yes or no.
 yes_no(Funs,A,B) ->
 	case Funs(A,B) of 
 		true -> io:format("yes~n");
@@ -61,7 +61,7 @@ yes_no(Funs,A,B) ->
 %%% Closure example - it's about scope...
 %%% A varible defined in a function is carried over to a fun definition
 
-%% Example: Render some HTML
+%% @doc Example: Render some HTML
 %% The 'Text' vars value is avaible to he anonymous fun when it's called in the to_html/1 function.
 render(Text,Em) ->
 	Out = to_html(fun() ->
@@ -69,7 +69,7 @@ render(Text,Em) ->
 				  end),
 	io:fwrite(Out).
 
-%% Add <p> tags to some text
+%% @doc  Add p tags to some text
 to_html(EmphasisFun) ->
 	"<p>" ++ EmphasisFun() ++ "</p>~n".
 
@@ -78,7 +78,7 @@ to_html(EmphasisFun) ->
 %% Internal functions
 %% ====================================================================
 
-% An 'or' method that fails by always returning true
+%% @doc  An 'or' method that fails by always returning true
 failing_or(_A,_B) ->
 	true.
 

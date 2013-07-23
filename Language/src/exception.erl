@@ -9,7 +9,7 @@
 %% ====================================================================
 -export([catch_all/0,catch_me/1,tryof/1,after_clause/0,stack/1]).
 
-%% Demonstrates how to catch all exceptions
+%% @doc Demonstrates how to catch all exceptions
 catch_all() ->
 	
 	try 
@@ -19,7 +19,7 @@ catch_all() ->
 	end.
 
 
-%% Demonstrates catching different exceptions and different types of exceptions
+%% @doc Demonstrates catching different exceptions and different types of exceptions
 catch_me(Type) when is_atom(Type) ->
 	try 
 		unsafe(Type,"The Reason")
@@ -30,7 +30,7 @@ catch_me(Type) when is_atom(Type) ->
 		error:Message -> {got_error,Message}
 	end.
 	
-%% Demonstrate the use of the 'try - of' construct
+%% @doc Demonstrate the use of the 'try - of' construct
 tryof(Val) ->
 	try
 		unsafe(Val,"Some Message") 
@@ -43,7 +43,7 @@ tryof(Val) ->
 		_:_ -> io:format("The Error: ~n")
 	end.
 
-%% Demonstrate the use of 'after' in a try - catch clause
+%% @doc Demonstrate the use of 'after' in a try - catch clause
 after_clause() ->
 
 	{ok,FileHandle} = file:open("/tmp/fred.txt", [read,write]),
@@ -58,7 +58,7 @@ after_clause() ->
 		file:close(FileHandle)
 	end.
 
-%% Demonstrates getting a stack trace
+%% @doc Demonstrates getting a stack trace
 stack(Type) when is_atom(Type) ->
 	try 
 		unsafe(Type,"The Reason")
@@ -72,7 +72,7 @@ stack(Type) when is_atom(Type) ->
 %% Internal functions
 %% ====================================================================
 
-%% Illstrate the three types of exceptions:
+%% @doc Illstrate the three types of exceptions:
 %%    throw(..) - as in a recoverable user exception
 %%    exit(...) - exit the app; could be an error, could be a normal termination
 %%    erlang:error(...) - an internal error (usually used when writing libraries)
@@ -86,14 +86,14 @@ unsafe(Type,Message) when is_atom(Type) ->
 		_ -> Type
 	end.
 
-%% Read and display the contents of a file
+%% @doc Read and display the contents of a file
 read_file(Device) ->
     case io:get_line(Device, "") of
         eof  -> [];
         Line -> Line ++ read_file(Device)
     end.
 
-%% Write some junk into the fie
+%% @doc Write some junk into the fie
 write_file(FileHandle,Text) ->
 	io:fwrite(FileHandle,Text,[]).
 

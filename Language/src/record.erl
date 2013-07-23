@@ -25,7 +25,7 @@
 		 update4/0,
 		 access_ext/0]).
 
-%% Creating a record - example
+%% @doc Creating a record - example
 create() ->
 	
 	%% Unused - demo creating and empty record
@@ -36,7 +36,7 @@ create() ->
 
 	#customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"}.
 
-%% Accessing record fields
+%% @doc Accessing record fields
 access() ->
 	
 	Record = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
@@ -46,13 +46,13 @@ access() ->
 	Phone = Record#customer.phone,
 	{Name,Email,Phone}.
 
-%% Demo the updating of a record by creating a new record (Single Assignment AKA immutability in Java)
+%% @doc Demo the updating of a record by creating a new record (Single Assignment AKA immutability in Java)
 update() ->
 	Record = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
 
 	#customer{name=Record#customer.name, email=Record#customer.email, phone="555 0987"}.
 
-%% Update a record as part of passing an arg to another function
+%% @doc Update a record as part of passing an arg to another function
 update2() ->
 	
 	Record = #customer{name="Roger Hughes", email="info@captaindebug.com", phone="555 1234"},
@@ -61,7 +61,7 @@ update2() ->
 	contact_result(Record).
 
 
-%% Update a record as part of passing an arg to another function
+%% @doc Update a record as part of passing an arg to another function
 %% Throw an exception as the phone number is missing
 update3() ->	
 	%% Incomplete - missing phone number
@@ -70,7 +70,7 @@ update3() ->
 	contact_result(Record).
 
 
-%% Better example of update3/0 - adds an exception in to handle the error as this should be recoverable
+%% @doc Better example of update3/0 - adds an exception in to handle the error as this should be recoverable
 update4() ->
 	
 	try 
@@ -83,7 +83,7 @@ update4() ->
 		missing
 	end.
 
-%% Accessing record fields defined in a header file
+%% @doc Accessing record fields defined in a header file
 access_ext() ->
 	
 	Address = #address{line1 = "23 Railway Cuttings", town="East Cheam"},
@@ -98,7 +98,7 @@ access_ext() ->
 %% Internal functions
 %% ====================================================================
 
-%% display cotact details
+%% @doc display cotact details
 %% Creates a new record as the arg is passed into the function
 %% email field is ignored as it's not used
 show_phone(#customer{name=Name, phone=Phone}) when Phone =/= undefined ->

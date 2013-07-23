@@ -1,6 +1,5 @@
 %% @author Roger
 %% @doc Demonstrates function clauses and equivalent(?) implementation using a case expression.
- 
 
 
 -module(clause_case).
@@ -10,7 +9,7 @@
 %% ====================================================================
 -export([either_or_both1/2, either_or_both2/2, area1/1,area2/1]).
 
-%% Function Clause with a guard
+%% @doc Function Clause with a guard
 either_or_both1(true,A) when is_boolean(A) ->
 	true;
 either_or_both1(A,true) when is_boolean(A) ->
@@ -18,7 +17,7 @@ either_or_both1(A,true) when is_boolean(A) ->
 either_or_both1(false,false)  ->
 	false.
 
-%% Same as either_or_both, but implemented using a Case expression
+%% @doc Same as either_or_both, but implemented using a Case expression
 either_or_both2(A,B) ->
 	
 	% Make a tuple from the args so you can match...
@@ -32,7 +31,7 @@ either_or_both2(A,B) ->
 	end.
 
 
-%% Implement the area of a shape using clauses
+%% @doc Implement the area of a shape using clauses
 area1({circle,Radius}) ->
 	Radius * Radius * math:pi();
 area1({square,Side}) ->
@@ -41,7 +40,7 @@ area1({rectangle, Height,Width}) ->
 	Height * Width.
 
 
-%% Implement the area of a shape using a case
+%% @doc Implement the area of a shape using a case
 area2(Shape) when is_tuple(Shape) ->
 	case Shape of
 	{circle, Radius} ->
@@ -51,12 +50,5 @@ area2(Shape) when is_tuple(Shape) ->
 	{rectangle,Height,Width} ->
 		Height * Width
 	end.
-
-
-
-
-%% ====================================================================
-%% Internal functions
-%% ====================================================================
 
 

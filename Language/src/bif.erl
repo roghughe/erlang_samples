@@ -12,27 +12,27 @@
 		 my_list_to_atom/1,
 		 my_date/0,my_time/0,my_now/0]).
 
-%% Head BIF example
+%% @doc Head BIF example
 my_hd(List) ->
 	hd(List).
 
-%% Tail BIF example
+%% @doc Tail BIF example
 my_tl(List) ->
 	tl(List).
 
-%% Length of a list example
+%% @doc Length of a list example
 my_length(List) ->
 	length(List).
 
-%% Tuple size example
+%% @doc Tuple size example
 my_tuple_size(Tuple) ->
 		tuple_size(Tuple).
 
-%% Element example
+%% @doc Element example
 my_element(Tuple,Pos) ->
 	element(Tuple,Pos).
 
-%% append_element example
+%% @doc append_element example
 my_append_element(Tuple, Term) ->
 	erlang:append_element(Tuple, Term).
 
@@ -43,11 +43,11 @@ my_append_element(Tuple, Term) ->
 %% integer_to_list/1 etc.
 %% ====================================================================
 
-%% atom_to_list example
+%% @doc atom_to_list example
 my_atom_to_list(Atom) ->
 	atom_to_list(Atom).
 
-%% list to atom example
+%% @doc list to atom example
 my_list_to_atom(List) ->
 	list_to_atom(List).
 
@@ -56,21 +56,16 @@ my_list_to_atom(List) ->
 %% System Information Examples
 %% ====================================================================
 
-%% Returns Tuple {Year,Month,Date}
+%% @doc Returns Tuple {Year,Month,Date}
 my_date()->
 	date().
 
-%% Returns Tuple {Hour,Minutes,Seconds}
+%% @doc Returns Tuple {Hour,Minutes,Seconds}
 my_time() ->
 	time().
 
-%% MegaSeconds, Seconds, MicoSeconds since 1st Jan 1970 
+%% @doc MegaSeconds, Seconds, MicoSeconds since 1st Jan 1970 
 my_now() ->
 	now().
-
-
-%% ====================================================================
-%% Internal functions
-%% ====================================================================
 
 
