@@ -1,0 +1,12 @@
+{application, fs_server,
+ [
+  {description, "First Server"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { fs_server, []}},
+  {env, []}
+ ]}.
