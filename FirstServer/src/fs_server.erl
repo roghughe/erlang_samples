@@ -23,8 +23,8 @@
 -export([start_link/1,start_link/0,get_count/0,stop/0]).
 
 %% ====================================================================
-%% @doc Starts the server 
-%% @spec start_link(Port::integer{}) -> {ok,Pid}
+%% @doc Starts the server  @end
+%% @spec start_link(Port::integer()) -> {ok,Pid}
 %% where 
 %%  Pid = pid()
 %% @end
@@ -44,7 +44,7 @@ start_link() ->
 %% using the synchronous call to gen_server:call/2
 %% @spec get_count() -> {ok, Count}
 %%   where 
-%%    Count = integer{}
+%%    Count = integer()
 %% @end
 %% ====================================================================
 get_count() ->
