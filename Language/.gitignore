@@ -5,4 +5,8 @@ deps
 *.plt
 /ebin
 .settings
-doc
+doc/*.html
+doc/*.css
+doc/edoc-info
+doc/*.png
+
