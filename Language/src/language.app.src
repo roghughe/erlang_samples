@@ -1,12 +1,12 @@
 {application, language,
  [
-  {description, "Language examples"},
+  {description, "Language examples. Defined as a 'library' application"},
   {vsn, "1.0.0"},
   {registered, []},
   {applications, [
                   kernel,
                   stdlib
                  ]},
-  {mod, { language, []}},
+  
   {env, []}
  ]}.
