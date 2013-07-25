@@ -32,8 +32,8 @@ start(_Type, _StartArgs) ->
 	log4erl:conf("priv/log4erl.conf"),
 	log4erl:info("Starting fs_app~n"),
 
-	%% @todo replace this with a supervisor
-    case fs_server:start_link() of
+	%% replace this with a supervisor
+    case fs_sup:start_link() of
 		{ok, Pid} ->
 			{ok, Pid};
 		Error ->
