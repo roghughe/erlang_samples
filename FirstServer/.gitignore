@@ -6,4 +6,8 @@ deps
 /ebin
 .settings
 .settings/*
-doc
+doc/*.html
+doc/*.css
+doc/edoc-info
+doc/*.png
+

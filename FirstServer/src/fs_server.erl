@@ -15,15 +15,14 @@
 
 -define(SERVER,?MODULE).
 -define(DEFAULT_PORT,1055).
-
-
+	
 %% ====================================================================
 %% API functions
 %% ====================================================================
 -export([start_link/1,start_link/0,get_count/0,stop/0]).
 
 %% ====================================================================
-%% @doc Starts the server  @end
+%% @doc Starts the server  
 %% @spec start_link(Port::integer()) -> {ok,Pid}
 %% where 
 %%  Pid = pid()
@@ -36,6 +35,7 @@ start_link(Port) ->
 %% @spec start_link() -> {ok,Pid}
 %% @doc Calls start_link/1 using the default port. 
 start_link() ->
+	log4erl:info("Starting the Server"),	
 	start_link(?DEFAULT_PORT).
 
 
@@ -57,6 +57,7 @@ get_count() ->
 %% @end
 %% ====================================================================
 stop() ->
+	log4erl:info("Stopping the Server"),	
 	gen_server:cast(?SERVER, stop).
 
 
@@ -77,13 +78,18 @@ stop() ->
 	State :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-init([]) ->
-    {ok, #state{}}.
+init([Port]) ->
+	log4erl:info("In Init..."),	
+	{ok,LSock} = gen_tcp:listen(Port, [{active,true}]),
+    {ok, #state{port = Port,lsock=LSock},0}.
 
 
 %% handle_call/3
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">gen_server:handle_call/3</a>
+%% Note that this version of handle_call() only accepts 'get_count' calls. Use clauses to add in more argument types.
+
+
 -spec handle_call(Request :: term(), From :: {pid(), Tag :: term()}, State :: term()) -> Result when
 	Result :: {reply, Reply, NewState}
 			| {reply, Reply, NewState, Timeout}
@@ -98,14 +104,17 @@ init([]) ->
 	Timeout :: non_neg_integer() | infinity,
 	Reason :: term().
 %% ====================================================================
-handle_call(Request, From, State) ->
-    Reply = ok,
+handle_call(get_count, _From, State) ->
+	Count = State#state.request_count,
+	log4erl:info("Calling get_count, which is ~p~n",[Count]),	
+    Reply = {ok,Count},
     {reply, Reply, State}.
 
 
 %% handle_cast/2
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:handle_cast-2">gen_server:handle_cast/2</a>
+%% Handle stop messages only
 -spec handle_cast(Request :: term(), State :: term()) -> Result when
 	Result :: {noreply, NewState}
 			| {noreply, NewState, Timeout}
@@ -114,8 +123,8 @@ handle_call(Request, From, State) ->
 	NewState :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-handle_cast(Msg, State) ->
-    {noreply, State}.
+handle_cast(stop, State) ->
+    {stop,normal, State}.
 
 
 %% handle_info/2
@@ -129,8 +138,15 @@ handle_cast(Msg, State) ->
 	NewState :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-handle_info(Info, State) ->
-    {noreply, State}.
+handle_info({tcp,Socket,RawData},State) ->
+	log4erl:info("RawData is ~p~n",[RawData]),	
+	do_rpc(Socket,RawData),
+	RequestCount = State#state.request_count,
+	{noreply,State#state{request_count = RequestCount+1}};
+handle_info(timeout,#state{lsock = LSock} = State) ->
+	disk_log:log(?SERVER,"Waiting for client"),
+	{ok,_Sock} = gen_tcp:accept(LSock),
+	{noreply,State}.
 
 
 %% terminate/2
@@ -142,7 +158,7 @@ handle_info(Info, State) ->
 			| {shutdown, term()}
 			| term().
 %% ====================================================================
-terminate(Reason, State) ->
+terminate(_Reason, __State) ->
     ok.
 
 
@@ -154,7 +170,7 @@ terminate(Reason, State) ->
 	OldVsn :: Vsn | {down, Vsn},
 	Vsn :: term().
 %% ====================================================================
-code_change(OldVsn, State, Extra) ->
+code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 
@@ -162,4 +178,25 @@ code_change(OldVsn, State, Extra) ->
 %% Internal functions
 %% ====================================================================
 
+do_rpc(Socket,RawData) ->
+	try
+		{M,F,A} = split_out_mfa(RawData),
+		Result = apply(M,F,A),
+		gen_tcp:send(Socket,io_lib:fwrite("~p~n",[Result]))
+	catch
+		_Class:Err ->
+			gen_tcp:send(Socket,io_lib:fwrite("~p~n",[Err]))
+	end.
 
+%% 
+split_out_mfa(RawData) ->
+	MFA = re:replace(RawData, "\r\n$", "", [{return,list}]),
+	{match,[Module,Function,Args]} = re:run(MFA,"(.*):(.*)\s*\\((.*)\s*\\)\s*.\s*$",
+							 [{capture,[1,2,3],list},ungreedy]),
+	{list_to_atom(Module),list_to_atom(Function),args_to_terms(Args)}.
+							
+
+args_to_terms(RawArgs) ->
+	{ok,Toks,_Line} = erl_scan:string("[" ++ RawArgs ++ "]. ",1),
+	{ok,Args} = erl_parse:parse_term(Toks),
+	Args.

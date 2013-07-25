@@ -1,12 +1,12 @@
 {application, fs_server,
  [
-  {description, "First Server"},
+  {description, "First Server - This is my very first server"},
   {vsn, "1.0.0"},
-  {registered, []},
+  {registered, [fs_app]},
   {applications, [
                   kernel,
                   stdlib
                  ]},
-  {mod, { fs_server, []}},
+  {mod, { fs_app, []}},
   {env, []}
  ]}.
