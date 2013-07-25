@@ -1,0 +1,11 @@
+ ** this is the overview.doc file for the application 'frob' **
+
+   @author ROGER 
+   @copyright 2013
+   @version 1.0.0
+   @title Some Erlang Language examples
+   @doc 'language' is a "my first erlang" application that illustrates several of the basic language features, each in their own module.
+   The application has been written as an erlang 'language' application - in that language.erl doesn't do anything and language.app.src has no 'module' 
+   tuplet. 
+   
+   The app is built using rebar and the langauge.app.src reflects this.
