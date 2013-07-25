@@ -188,7 +188,7 @@ do_rpc(Socket,RawData) ->
 			gen_tcp:send(Socket,io_lib:fwrite("~p~n",[Err]))
 	end.
 
-%% 
+%% This is an example of how you do regex stuff in erlang...
 split_out_mfa(RawData) ->
 	MFA = re:replace(RawData, "\r\n$", "", [{return,list}]),
 	{match,[Module,Function,Args]} = re:run(MFA,"(.*):(.*)\s*\\((.*)\s*\\)\s*.\s*$",

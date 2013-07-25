@@ -28,6 +28,8 @@ start_link() ->
 %% init/1
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/supervisor.html#Module:init-1">supervisor:init/1</a>
+%% This is the callback function. Somewhere in the <tt>supervisor:start_link(..)</tt> function, there is a callback that comes out here,
+%% so that the supervisor can start its worker process(es) or additional supervisor(s).
 -spec init(Args :: term()) -> Result when
 	Result :: {ok, {SupervisionPolicy, [ChildSpec]}} | ignore,
 	SupervisionPolicy :: {RestartStrategy, MaxR :: non_neg_integer(), MaxT :: pos_integer()},

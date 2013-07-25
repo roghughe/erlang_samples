@@ -1,5 +1,5 @@
 %% @author Roger
-%% @doc @todo Add description to fs_app.
+%% @doc This is the app module. Responsible for starting supervisor(s).
 
 
 -module(fs_app).
@@ -22,6 +22,8 @@
 %% @doc <a href="http://www.erlang.org/doc/apps/kernel/application.html#Module:start-2">application:start/2</a>
 %% 
 %% Also introduces log4erl. For more information see <a href="http://code.google.com/p/log4erl/" target="new">Google's Log4l Project</a>
+%%
+%% In this example, simply call the module that does the work.
 -spec start(Type :: normal | {takeover, Node} | {failover, Node}, Args :: term()) ->
 	{ok, Pid :: pid()}
 	| {ok, Pid :: pid(), State :: term()}
@@ -46,7 +48,7 @@ start(_Type, _StartArgs) ->
 -spec stop(State :: term()) ->  Any :: term().
 %% ====================================================================
 stop(_State) ->
-	fs_server:stop(),
+	fs_sup:stop(),
 	application:stop(log4erl),
     ok.
 
