@@ -14,7 +14,7 @@
 %% @doc Create an ETS table and insert some data 
 create() ->
 	Table = ets:new(contacts,[set,named_table]),
-	ets:insert(Table,{"Roger",roghughe@captaindebug.com,"555 1234"}),
+	ets:insert(Table,{"Roger",'roghughe@captaindebug.com',"555 1234"}),
 	
 	spawn(?MODULE,myproc,[Table,"Roger",self(),10]),
 	receive

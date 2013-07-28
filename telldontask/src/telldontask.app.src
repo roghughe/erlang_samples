@@ -1,0 +1,12 @@
+{application, telldontask,
+ [
+  {description, "Shopping Cart Example"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { telldontask_app, []}},
+  {env, []}
+ ]}.

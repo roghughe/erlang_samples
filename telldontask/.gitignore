@@ -1,0 +1,13 @@
+.eunit
+deps
+*.o
+*.beam
+*.plt
+/ebin
+.settings
+.settings/*
+doc/*.html
+doc/*.css
+doc/edoc-info
+doc/*.png
+
