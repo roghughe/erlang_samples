@@ -2,7 +2,7 @@
 %% @doc @todo Add description to shopping_cart_basic.
 
 
--module(shopping_cart_basic).
+-module(shopping_cart).
 
 %% ====================================================================
 %% API functions
