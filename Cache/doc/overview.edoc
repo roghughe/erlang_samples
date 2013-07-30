@@ -1,0 +1,30 @@
+ ** this is the overview.doc file for the application 'frob' **
+
+@author ROGER 
+@copyright 2013
+@version 1.0.0
+@title Erlang and OTP In Action Cache Server
+@doc An implementation of the simple cache server from the Erlang and OTP in Action book; not copied, but typed in by hand with changes and updates made as necessary.
+
+To compile the project from the command line 'cd' to the project dir and use 
+
+	<tt>rebar compile</tt>
+	
+or
+
+	<tt>erlc -o ebin src/*.erl</tt>
+
+To run from a simple shell you need to ensure that all the project sub-dirs are accessible from erlang. Use the 
+following erland command:
+
+	<tt>erl -pa ebin</tt>
+	
+To start the application use:
+
+	<tt>1&gt; application:start(simple_cache).</tt>
+	
+
+
+
+
+	

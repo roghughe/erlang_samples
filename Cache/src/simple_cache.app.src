@@ -1,0 +1,12 @@
+{application, simple_cache,
+ [
+  {description, "A simple caching server based on the code from Erlang and OTP in Action"},
+  {vsn, "0.1.0"},
+  {registered, [sc_sup]},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { sc_app, []}},
+  {env, []}
+ ]}.
