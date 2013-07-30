@@ -53,6 +53,7 @@ delete(Pid) ->
 %% init/1
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:init-1">gen_server:init/1</a>
+%% The Big Idea of the init function is to setup the state record... that's all.
 -spec init(Args :: term()) -> Result when
 	Result :: {ok, State}
 			| {ok, State, Timeout}
@@ -62,8 +63,27 @@ delete(Pid) ->
 	State :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-init([]) ->
-    {ok, #state{}}.
+init([Value,LeaseTime]) ->
+	log4erl:info("simple_cache_element:init(~p,~p)",Value,LeaseTime),
+	Now = calendar:local_time(),
+	StartTime = calendar:datetime_to_gregorian_seconds(Now),
+
+    {ok, #state{value=Value,
+				lease_time=LeaseTime,
+				start_time = StartTime},
+	 time_left(StartTime,LeaseTime)}.
+
+time_left(_StartTime,infinity) ->
+	infinity;
+time_left(StartTime,LeaseTime) ->
+	Now = calendar:local_time(),
+	CurrentTime = calendar:datetime_to_gregorian_seconds(Now),
+	TimeElapsed = CurrentTime-StartTime,
+	case LeaseTime - TimeElapsed of
+		Time when Time =< 0 -> 0;
+		Time                -> Time * 1000
+	end.
+
 
 
 %% handle_call/3
@@ -83,9 +103,12 @@ init([]) ->
 	Timeout :: non_neg_integer() | infinity,
 	Reason :: term().
 %% ====================================================================
-handle_call(Request, From, State) ->
-    Reply = ok,
-    {reply, Reply, State}.
+handle_call(fetch, _From, State) ->
+	#state{value=Value,
+		   lease_time = LeaseTime,
+		   start_time=StartTime} = State,
+	TimeLeft = time_left(StartTime,LeaseTime),
+    {reply, {ok,Value}, State,TimeLeft}.
 
 
 %% handle_cast/2
@@ -99,8 +122,15 @@ handle_call(Request, From, State) ->
 	NewState :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-handle_cast(Msg, State) ->
-    {noreply, State}.
+handle_cast({replace,Value}, State) ->
+	% Get the various bits out of the State tuple
+	#state{lease_time = LeaseTime,
+		   start_time = StartTime} = State,
+	TimeLeft = time_left(StartTime,LeaseTime),
+    {noreply, {ok,Value}, State,TimeLeft};
+handle_cast(delete,State) ->
+	{stop,normal,State}.
+
 
 
 %% handle_info/2
@@ -114,8 +144,8 @@ handle_cast(Msg, State) ->
 	NewState :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-handle_info(Info, State) ->
-    {noreply, State}.
+handle_info(timeout, State) ->
+	{stop,normal,State}.
 
 
 %% terminate/2
@@ -127,9 +157,9 @@ handle_info(Info, State) ->
 			| {shutdown, term()}
 			| term().
 %% ====================================================================
-terminate(Reason, State) ->
-    ok.
-
+terminate(_Reason, _State) ->
+    simple_cache_store:delete(self()),
+	ok.
 
 %% code_change/3
 %% ====================================================================
@@ -139,7 +169,7 @@ terminate(Reason, State) ->
 	OldVsn :: Vsn | {down, Vsn},
 	Vsn :: term().
 %% ====================================================================
-code_change(OldVsn, State, Extra) ->
+code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 
