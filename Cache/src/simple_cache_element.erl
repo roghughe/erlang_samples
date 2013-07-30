@@ -25,22 +25,32 @@
 -define(SERVER,?MODULE).
 -define(DEFAULT_LEASE_TIME,60*60*24).
 
-
+%% @doc Start the gen_server
 start_link(Value,LeaseTime) ->
+	log4erl:info("start_link(~p,~p)",[Value,LeaseTime]),
 	gen_server:start_link(?MODULE, [Value,LeaseTime], []).
 
+%% @doc Start a new process that'll holds the Value for the LeaseTime
+%% The Value is mapped to  process and keyed on the process's Pid
 create(Value,LeaseTime) ->
+	log4erl:info("create(~p,~p)",[Value,LeaseTime]),
 	simple_cache_sup:start_child(Value, LeaseTime).
 
+%% @doc Start a new process that'll holds the Value for the default least time
 create(Value) ->
 	create(Value,?DEFAULT_LEASE_TIME).
 
+%% @doc Use a synchronous call to the server to retrieve the value that's mpped to this Pid
 fetch(Pid) ->
+	log4erl:info("fetch(~p)",[Pid]),
 	gen_server:call(Pid,fetch).
 
+%% @doc Replace a prcocess's value. The process is identified by its Pid
 replace(Pid,Value) ->
+	log4erl:info("replace(~p,~p)",[Pid,Value]),
 	gen_server:cast(Pid,{replace,Value}).
 
+%% @doc Terminate a process that's holding a value
 delete(Pid) ->
 	gen_server:cast(Pid,delete).
 
@@ -54,6 +64,7 @@ delete(Pid) ->
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:init-1">gen_server:init/1</a>
 %% The Big Idea of the init function is to setup the state record... that's all.
+%% The values Value and LeaseTime are passed in from the original create() call.
 -spec init(Args :: term()) -> Result when
 	Result :: {ok, State}
 			| {ok, State, Timeout}
@@ -72,17 +83,6 @@ init([Value,LeaseTime]) ->
 				lease_time=LeaseTime,
 				start_time = StartTime},
 	 time_left(StartTime,LeaseTime)}.
-
-time_left(_StartTime,infinity) ->
-	infinity;
-time_left(StartTime,LeaseTime) ->
-	Now = calendar:local_time(),
-	CurrentTime = calendar:datetime_to_gregorian_seconds(Now),
-	TimeElapsed = CurrentTime-StartTime,
-	case LeaseTime - TimeElapsed of
-		Time when Time =< 0 -> 0;
-		Time                -> Time * 1000
-	end.
 
 
 
@@ -104,6 +104,7 @@ time_left(StartTime,LeaseTime) ->
 	Reason :: term().
 %% ====================================================================
 handle_call(fetch, _From, State) ->
+	log4erl:info("handle_call(fetch,...)"),
 	#state{value=Value,
 		   lease_time = LeaseTime,
 		   start_time=StartTime} = State,
@@ -123,12 +124,14 @@ handle_call(fetch, _From, State) ->
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
 handle_cast({replace,Value}, State) ->
+	log4erl:info("handle_cast({replace,~p},~p)",[Value,State]),
 	% Get the various bits out of the State tuple
 	#state{lease_time = LeaseTime,
 		   start_time = StartTime} = State,
 	TimeLeft = time_left(StartTime,LeaseTime),
     {noreply, {ok,Value}, State,TimeLeft};
 handle_cast(delete,State) ->
+	log4erl:info("handle_cast(delete,~p)",[State]),
 	{stop,normal,State}.
 
 
@@ -158,6 +161,7 @@ handle_info(timeout, State) ->
 			| term().
 %% ====================================================================
 terminate(_Reason, _State) ->
+	log4erl:info("terminate(...)"),
     simple_cache_store:delete(self()),
 	ok.
 
@@ -176,5 +180,16 @@ code_change(_OldVsn, State, _Extra) ->
 %% ====================================================================
 %% Internal functions
 %% ====================================================================
+
+time_left(_StartTime,infinity) ->
+	infinity;
+time_left(StartTime,LeaseTime) ->
+	Now = calendar:local_time(),
+	CurrentTime = calendar:datetime_to_gregorian_seconds(Now),
+	TimeElapsed = CurrentTime-StartTime,
+	case LeaseTime - TimeElapsed of
+		Time when Time =< 0 -> 0;
+		Time                -> Time * 1000
+	end.
 
 

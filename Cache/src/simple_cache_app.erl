@@ -10,6 +10,8 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
+	log4erl:info("Start The App"),
+	
 	case simple_cache_sup:start_link() of
 		{ok, Pid} -> 
 			log4erl:info("App Start Okay"),

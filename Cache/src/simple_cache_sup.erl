@@ -19,9 +19,12 @@
 %% ===================================================================
 
 start_link() ->
-    supervisor:start_link({local, ?SERVER}, ?MODULE, []).
+	log4erl:info("Starting the supervisor"),
+	supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
+%% @doc Called by the simple_cache_element to start a child element cache process
 start_child(Value,LeaseTime) ->
+	log4erl:info("simple_cache_sup:start_child(~p,~p)",[Value,LeaseTime]),
 	supervisor:start_child(?SERVER, [Value,LeaseTime]).
 
 %% ===================================================================
@@ -29,6 +32,7 @@ start_child(Value,LeaseTime) ->
 %% ===================================================================
 
 init([]) ->
+	log4erl:info("simple_cache_sup:init([])"),
 	Element = {simple_cache_element, {simple_cache_element,start_link,[]},
 			   temporary,brutal_kill,worker,[simple_cache_element]},
 	Children = [Element],
