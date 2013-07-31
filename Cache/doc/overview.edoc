@@ -4,7 +4,15 @@
 @copyright 2013
 @version 1.0.0
 @title Erlang and OTP In Action Cache Server
-@doc An implementation of the simple cache server from the Erlang and OTP in Action book; not copied, but typed in by hand with changes and updates made as necessary.
+@doc An implementation of the simple cache server from the Erlang and OTP in Action book; 
+not copied, but typed in by hand with changes and updates made as necessary.
+
+The idea here is that we are storing key, value pairs. To store a value, a new server process is created and the Value 
+is stored as part of the server's State information. The key is then used to store the process's Pid in ETS tables.
+
+I guess that the reason you don't store the key/value pairs in the ETS tables directly is first, this is a tutorial and you need 
+to do something... secondly, it provides automatic cache clearing via the LeaseTime mechanism. The LeaseTime mechanism leverages the 
+server timeout idea - i.e. when you create a server its init/1 call sets up the state and then tags a timeout on the end of the tuple.
 
 To compile the project from the command line 'cd' to the project dir and use 
 
@@ -22,6 +30,13 @@ following erland command:
 To start the application use:
 
 	<tt>1&gt; application:start(simple_cache).</tt>
+	
+You can then access the app using the simple_cache API module. eg:
+
+<tt>simple_cache(myKey,myValue).</tt>
+
+
+
 	
 
 
