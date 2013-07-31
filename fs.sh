@@ -1,3 +1,3 @@
 cd FirstServer
-./rebar clean eunit
+./rebar clean compile
 cd ..
