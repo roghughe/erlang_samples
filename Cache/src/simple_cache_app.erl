@@ -10,7 +10,8 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-	log4erl:info("Start The App"),
+	log4erl:conf("priv/log4erl.conf"),
+	log4erl:info("Start the Cache App"),
 	simple_cache_store:init(),
 	case simple_cache_sup:start_link() of
 		{ok, Pid} -> 
