@@ -11,7 +11,7 @@
 
 start(_StartType, _StartArgs) ->
 	log4erl:info("Start The App"),
-	
+	simple_cache_store:init(),
 	case simple_cache_sup:start_link() of
 		{ok, Pid} -> 
 			log4erl:info("App Start Okay"),

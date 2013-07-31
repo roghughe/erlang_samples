@@ -1,5 +1,5 @@
 %% @author Roger
-%% @doc @todo Add description to simple_cache_element.
+%% @doc A gen_server that models an element in the cache
 
 
 -module(simple_cache_element).
@@ -89,6 +89,7 @@ init([Value,LeaseTime]) ->
 %% handle_call/3
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:handle_call-3">gen_server:handle_call/3</a>
+%% This call is a synchronous call that returns the value from a cache process
 -spec handle_call(Request :: term(), From :: {pid(), Tag :: term()}, State :: term()) -> Result when
 	Result :: {reply, Reply, NewState}
 			| {reply, Reply, NewState, Timeout}
@@ -115,6 +116,7 @@ handle_call(fetch, _From, State) ->
 %% handle_cast/2
 %% ====================================================================
 %% @doc <a href="http://www.erlang.org/doc/man/gen_server.html#Module:handle_cast-2">gen_server:handle_cast/2</a>
+%% An asynchronous call that handles either replace or delete functionality depending upon the clause called.
 -spec handle_cast(Request :: term(), State :: term()) -> Result when
 	Result :: {noreply, NewState}
 			| {noreply, NewState, Timeout}
