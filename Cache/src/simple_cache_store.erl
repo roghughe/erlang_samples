@@ -9,7 +9,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([lookup/1, delete/1, insert/2, init/0]).
+-export([lookup/1, delete/1, insert/2, init/0,stop/0]).
 
 -define(TABLE_ID,?MODULE).
 
@@ -32,6 +32,8 @@ lookup(Key) ->
 delete(Pid) ->
 	ets:match_delete(?TABLE_ID,{'_',Pid}).
 
+stop() ->
+	ets:delete(?TABLE_ID).
 
 %% ====================================================================
 %% Internal functions

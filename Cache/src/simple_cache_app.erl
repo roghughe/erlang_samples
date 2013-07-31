@@ -23,4 +23,5 @@ start(_StartType, _StartArgs) ->
 	end.
 
 stop(_State) ->
+	simple_cache_store:stop(),
     ok.
