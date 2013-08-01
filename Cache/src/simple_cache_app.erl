@@ -11,11 +11,12 @@
 
 start(_StartType, _StartArgs) ->
 	log4erl:conf("priv/log4erl.conf"),
-	log4erl:info("Start the Cache App"),
 	simple_cache_store:init(),
+	log4erl:info("Start the Cache App"),
 	case simple_cache_sup:start_link() of
 		{ok, Pid} -> 
 			log4erl:info("App Start Okay"),
+			simple_cache_event:add_handler(simple_cache_event_handler, []),
 			{ok,Pid};
 		Other ->
 			log4erl:info("App start Error: ~p",[Other]),

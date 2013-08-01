@@ -15,6 +15,8 @@
 
 %% Init the module. As a matter of style init(..) and / or start_XXX() methods go at the top of a module
 init()->
+	log4erl:info("Start the store"),
+	
 	% 'public' marks the table as available to many / any processes.
 	% 'named_table' makes it easily available
 	ets:new(?TABLE_ID,[public,named_table]),

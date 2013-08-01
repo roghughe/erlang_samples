@@ -15,10 +15,12 @@ insert(Key,Value) ->
 	log4erl:info("Simple Cache API - insert called"),
 	case simple_cache_store:lookup(Key) of 
 		{ok,Pid} ->
-			simple_cache_element:replace(Pid,Value);
+			simple_cache_element:replace(Pid,Value),
+			simple_cache_event:replace(Key,Value);
 		{error,_} ->
 			{ok, Pid} = simple_cache_element:create(Value),
-			simple_cache_store:insert(Key, Pid)
+			simple_cache_store:insert(Key, Pid),
+			simple_cache_event:create(Key,Value)
 	end.
 
 
@@ -27,6 +29,7 @@ lookup(Key) ->
 	try 
 		{ok, Pid} = simple_cache_store:lookup(Key),
 		{ok, Value} = simple_cache_element:fetch(Pid),
+		simple_cache_event:lookup(Key),
 		{ok,Value}
 	catch
 		_Class:_Exception ->
@@ -37,7 +40,8 @@ delete(Key) ->
 	log4erl:info("Simple Cache API - delete called"),
 	case simple_cache_store:lookup(Key) of 
 		{ok,Pid} -> 
-			simple_cache_element:delete(Pid);
+			simple_cache_element:delete(Pid),
+			simple_cache_event:delete(Key);
 		{error,_Reason} ->
 			ok
 	end.

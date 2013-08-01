@@ -34,7 +34,7 @@ start_link(Value,LeaseTime) ->
 %% The Value is mapped to  process and keyed on the process's Pid
 create(Value,LeaseTime) ->
 	log4erl:info("create(~p,~p)",[Value,LeaseTime]),
-	simple_cache_sup:start_child(Value, LeaseTime).
+	simple_cache_element_sup:start_child(Value, LeaseTime).
 
 %% @doc Start a new process that'll holds the Value for the default least time
 create(Value) ->
@@ -131,7 +131,7 @@ handle_cast({replace,Value}, State) ->
 	#state{lease_time = LeaseTime,
 		   start_time = StartTime} = State,
 	TimeLeft = time_left(StartTime,LeaseTime),
-    {noreply, {ok,Value}, State,TimeLeft};
+    {noreply, State#state{value = Value}, TimeLeft};
 handle_cast(delete,State) ->
 	log4erl:info("handle_cast(delete,~p)",[State]),
 	{stop,normal,State}.
