@@ -1,0 +1,12 @@
+{application, discover,
+ [
+  {description, "Sample/simple resource discovery app"},
+  {vsn, "0.1.0"},
+  {registered, [discover_sup]},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { discover_app, []}},
+  {env, []}
+ ]}.
