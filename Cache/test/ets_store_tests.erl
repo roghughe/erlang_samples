@@ -1,9 +1,9 @@
 %% @author Roger
-%% @doc Tests for simple_cache_store - calls either ets_store or mnesia_store
+%% @doc Tests for ets_store (which encapsulates ETS tables as part of its implementation)
 
 -include_lib("eunit/include/eunit.hrl").
 
--module(simple_cache_store_tests).
+-module(ets_store_tests).
 
 -define(KEY,key).
 -define(VALUE,"value").
@@ -32,17 +32,15 @@ insert_test_() ->
 
 %% @doc Called before the test
 start() ->
-	file:set_cwd("/tmp"),
-	error_logger:info("CWD is: ~p",[file:get_cwd()]),
-	simple_cache_store:init().
+	ets_store:init().
 
 %% @doc Called after the test
 stop(_) ->
-	simple_cache_store:stop().
+	ets_store:stop().
 
 %% The Test itself
 insert(_)->
-	[?_assert(simple_cache_store:insert(?KEY, ?VALUE))].
+	[?_assert(ets_store:insert(?KEY, ?VALUE))].
 
 
 lookup_test_() ->
@@ -52,9 +50,9 @@ lookup_test_() ->
 	 fun lookup/1}.	% The test function
 
 lookup(_) ->
-	simple_cache_store:insert(?KEY, ?VALUE),
-	[?_assertEqual({ok,?VALUE},simple_cache_store:lookup(?KEY)),
-	 ?_assertEqual({error, not_found},simple_cache_store:lookup(wibble))].
+	ets_store:insert(?KEY, ?VALUE),
+	[?_assertEqual({ok,?VALUE},ets_store:lookup(?KEY)),
+	 ?_assertEqual({error, not_found},ets_store:lookup(wibble))].
 
 delete_test() ->
 	{setup,			% tuple key
@@ -64,9 +62,9 @@ delete_test() ->
 
 
 delete(_) ->
-	?assert(simple_cache_store:insert(?KEY, ?VALUE)),
-	?assert(simple_cache_store:delete(?KEY)),
-	?assertEqual({error, not_found},simple_cache_store:lookup(?KEY)).
+	?assert(ets_store:insert(?KEY, ?VALUE)),
+	?assert(ets_store:delete(?KEY)),
+	?assertEqual({error, not_found},simple_cache:lookup(?KEY)).
 
 
 %% ====================================================================

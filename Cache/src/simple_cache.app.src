@@ -7,6 +7,9 @@
                   kernel,
                   stdlib
                  ]},
-  {mod, { simple_cache_app, []}},
-  {env, []}
+  {mod, { simple_cache_app, [{example, start_args}]}},
+  {env, [{property1,value1},{property2,value2}]}
  ]}.
+
+
+ 

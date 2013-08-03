@@ -9,13 +9,14 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([start_link/0]).
+-export([start_link/1]).
 
 -define(SERVER,?MODULE).
 
-
-start_link() ->
-	supervisor:start_link({local,?SERVER},?MODULE,[]).
+%% Args - The startup list. Could be the tables type used 
+start_link(Args) ->
+	log4erl:info("simple_cache_sup:start_link(~p)",[Args]),
+	supervisor:start_link({local,?SERVER},?MODULE,Args).
 
 
 %% ====================================================================
@@ -39,10 +40,10 @@ start_link() ->
 				   | temporary,
 	Modules :: [module()] | dynamic.
 %% ====================================================================
-init([]) ->
-	log4erl:info("simple_cache_sup:init([])"),
+init(Args) ->
+	log4erl:info("simple_cache_sup:init(~p)",[Args]),
 	
-	ElementSup = {simple_cache_element_sup, {simple_cache_element_sup,start_link,[]},
+	ElementSup = {simple_cache_element_sup, {simple_cache_element_sup,start_link,[Args]},
 					permanent,2000,supervisor,[simple_cache_element]},
 	
 	EventManager = {simple_cache_event, {simple_cache_event,start_link,[]},

@@ -14,7 +14,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([start_link/2,
+-export([start_link/3,
 		 create/2,
 		 create/1,
 		 fetch/1,
@@ -26,9 +26,9 @@
 -define(DEFAULT_LEASE_TIME,60*60*24).
 
 %% @doc Start the gen_server
-start_link(Value,LeaseTime) ->
-	log4erl:info("start_link(~p,~p)",[Value,LeaseTime]),
-	gen_server:start_link(?MODULE, [Value,LeaseTime], []).
+start_link(Args,Value,LeaseTime) ->
+	log4erl:info("start_link(~p,~p,~p)",[Args,Value,LeaseTime]),
+	gen_server:start_link(?MODULE, [Args,Value,LeaseTime], []).
 
 %% @doc Start a new process that'll holds the Value for the LeaseTime
 %% The Value is mapped to  process and keyed on the process's Pid
@@ -74,8 +74,8 @@ delete(Pid) ->
 	State :: term(),
 	Timeout :: non_neg_integer() | infinity.
 %% ====================================================================
-init([Value,LeaseTime]) ->
-	log4erl:info("simple_cache_element:init(~p,~p)",Value,LeaseTime),
+init([Args,Value,LeaseTime]) ->
+	log4erl:info("simple_cache_element:init(~p,~p,~p)",[Args,Value,LeaseTime]),
 	Now = calendar:local_time(),
 	StartTime = calendar:datetime_to_gregorian_seconds(Now),
 
