@@ -3,7 +3,7 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
--module(simple_cache_store_tests_ignore_till_fixed).
+-module(simple_cache_store_tests).
 
 -define(KEY,key).
 -define(VALUE,"value").
