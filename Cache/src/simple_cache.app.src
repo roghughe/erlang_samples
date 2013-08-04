@@ -5,7 +5,10 @@
   {registered, [simple_cache_sup]},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+                  sasl,
+                  mnesia,
+                  discover
                  ]},
   {mod, { simple_cache_app, [{example, start_args}]}},
   {env, [{property1,value1},{property2,value2}]}

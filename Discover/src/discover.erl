@@ -1,8 +1,9 @@
 %% @author Roger
-%% @doc @todo Add description to discover_srv.
+%% @doc Resource discovery server. Start the application (<tt>application:start(discover).</tt>) and then use the 
+%% API functions below.
 
 
--module(discover_srv).
+-module(discover).
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
@@ -22,19 +23,22 @@ start_link() ->
 	log4erl:info("srv start_link"),
 	gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
-
+%% @doc Adds a resource type that we're interested in discovering
 add_target_resource_type(Type) ->
 	log4erl:info("add_target_resource_type(~p)",[Type]),
 	gen_server:cast(?SERVER,{add_target_resource,Type}).
 
+%% @doc Adds a local resource type that we have access to and can serve up
 add_local_resource(Type,Instance) ->
 	log4erl:info("add_local_resource(~p,~p)",[Type,Instance]),
 	gen_server:cast(?SERVER, {add_local_resource,{Type,Instance}}).
 
+%% @doc Get hold of a resource that we may know about.
 fetch_resources(Type)->
 	log4erl:info("fetch_resources(~p)",[Type]),
 	gen_server:call(?SERVER,{fetch_resources,Type}).
 
+%% @doc Trade resources with other instances of this discovery service
 trade_resources() ->
 	log4erl:info("trade_resources() called"),
 	gen_server:cast(?SERVER,trade_resources).

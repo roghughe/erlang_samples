@@ -27,7 +27,7 @@ start_link() ->
 
 init([]) ->
 
-	Child = ?CHILD(discover_srv,worker),
+	Child = ?CHILD(discover,worker),
 	RestartStrategy = {one_for_one,0,1},
 
 	log4erl:info("discover_sup:init([]) - Child: ~p  RestartStrategy: ~p",[Child,RestartStrategy]),
