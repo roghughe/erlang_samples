@@ -1,5 +1,5 @@
 %% @author Roger
-%% @doc @todo Add description to list_comp.
+%% @doc These are a few list comprehension examples
 
 
 -module(list_comp).
@@ -7,10 +7,10 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([ex1/0,ex2/0,ex3/0]).
+-export([basic_list_comprehension/0,ex2/0,ex3/0]).
 
 %% @doc Basic list comprehension. Return a sub-list of all numbers less then 6
-ex1() ->
+basic_list_comprehension() ->
 	%% Define a list of integers
 	MyList = [0,1,2,3,4,5,6,7,8,9,10],
 
