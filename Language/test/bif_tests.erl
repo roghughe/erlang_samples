@@ -51,7 +51,7 @@ list_to_atom_test() ->
 date_test() ->
 	{Year,Month,Day} = bif:my_date(),
 	io:format("The date is: ~p/~p~p~n",[Day,Month,Year]),
-	?assertEqual(2013,Year).
+	?assertEqual(2016,Year).
 
 %% ====================================================================
 %% Internal functions
