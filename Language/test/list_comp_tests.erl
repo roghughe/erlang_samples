@@ -20,6 +20,9 @@ ex3_test() ->
 	?assertEqual([{area,20000},{area,3000}],list_comp:ex3()).
 
 
+pattern_match_test() ->
+	?assertEqual(["London","Boston"],list_comp:pattern_match()).
+
 %% ====================================================================
 %% Internal functions
 %% ====================================================================

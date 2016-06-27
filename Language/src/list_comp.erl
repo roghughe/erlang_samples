@@ -7,7 +7,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([basic_list_comprehension/0,ex2/0,ex3/0]).
+-export([basic_list_comprehension/0,ex2/0,ex3/0,pattern_match/0]).
 
 %% @doc Basic list comprehension. Return a sub-list of all numbers less then 6
 basic_list_comprehension() ->
@@ -32,6 +32,15 @@ ex3() ->
 	Shapes = [{rectangle,100,200},{rectangle,10,2},{square,25},{rectangle,30,100}],
 	
 	[{area, H*W} || {rectangle, H,W} <- Shapes, H*W >=50].
+
+%% @doc Use pattern matching to return a sublist of all locations where it's foggy
+pattern_match() ->
+
+	Weather = [{"Toronto", rain},{"Montreal",sun},{"London",fog},{"Paris",sun},{"Boston",fog},{"Vancouver",snow}],
+
+	[City || {City,fog} <- Weather].
+
+
 
 
 %% ====================================================================

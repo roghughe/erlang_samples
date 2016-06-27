@@ -31,7 +31,7 @@ all(Name,Point,List) ->
 
 %% @doc Hello World
 hello_world() ->
-	io:fwrite("This is going to print \"Hello World\"\n"),
+	io:fwrite("This is going to print \"Hello World\"~n"),
 	io:fwrite("Hello World!~n").
 
 %% @doc Simple hello_world + 1 application

@@ -18,7 +18,8 @@ hello_world_test() ->
 
 %% Example of a single test 
 greet_test() ->
-	?assertEqual(ok,hello:greet("Roger")).
+	%%?assertEqual(ok,hello:greet("Roger")).
+	hello:greet("Roger").
 
 %% single Test get one value from the tuple and returns it.
 height_from_point_test() ->
