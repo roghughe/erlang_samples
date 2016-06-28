@@ -18,3 +18,5 @@
 head_add_tail_test() ->
   ?assertEqual(6,lists_examples:head_add_tail()).
 
+find_head_example_test() ->
+  ?assertEqual(true,lists_examples:find_head_example()).
