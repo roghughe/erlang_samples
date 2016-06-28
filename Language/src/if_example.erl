@@ -10,14 +10,19 @@
 -author("Roger").
 
 %% API
--export([compare_numbers/0,compare_numbers/2]).
+-export([compare_numbers/0,compare_numbers/2,compare_once_more/2,compare_chars/1]).
 
 compare_numbers() ->
 
-  compare_numbers(1,2).
+  compare_numbers(1,2),
+  compare_once_more(3,4),
+  compare_chars('G'),
+  A = 'A',
+  compare_chars(A),
+  ok.
 
 
-%% @doc This compares two number
+%% @doc This compares two numbers
 %% Remember =:= and ==
 compare_numbers(A,B) ->
 
@@ -28,3 +33,26 @@ compare_numbers(A,B) ->
       nomatch
   end.
 
+compare_once_more(A,B) ->
+
+  if
+    A =:= B ->
+      equal;
+    A >= B ->
+      greaterThan;
+    A =< B ->
+      lessThan
+  end.
+
+compare_chars(A) ->
+
+  if
+    A =:= 'A' ->
+      a;
+    A =:= 'B' ->
+      b;
+    A =:= 'C'->
+      c;
+    true ->
+      nomatch
+  end.
