@@ -19,6 +19,8 @@ compare_numbers() ->
   compare_chars('G'),
   A = 'A',
   compare_chars(A),
+  same(2,2),
+  same(1,2),
   ok.
 
 
@@ -56,3 +58,9 @@ compare_chars(A) ->
     true ->
       nomatch
   end.
+
+%% This looks like the more erlang way - pattern matching
+same(X,Y) ->
+  true;
+same(_,_) ->
+  false.

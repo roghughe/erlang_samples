@@ -39,3 +39,4 @@ compare_once_more_lt_test() ->
 compare_chars_test() ->
 
   ?assertEqual(a,if_example:compare_chars('A')).
+

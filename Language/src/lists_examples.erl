@@ -37,6 +37,8 @@ find_head_example() ->
   Head = head(List),
   Head2 = head2(List),
 
+  Second = second(List),
+
   % Remember - this is the equivalent to ==
   Head =:= Head2.
 
@@ -48,3 +50,5 @@ head2(List) ->
   [H|_] = List,
   H.
 
+%% This should retieve the seconds element from the list.
+second([_,X|_]) -> X.
