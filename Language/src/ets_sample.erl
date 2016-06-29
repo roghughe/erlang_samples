@@ -26,7 +26,7 @@ create() ->
 %% @doc Proc that reads the table
 myproc(_,_,Owner,0) -> 
 	timer:sleep(100),
-	%% Send a message to the owning process to delte the table
+	%% Send a message to the owning process to delete the table
 	Owner ! [],
 	timer:sleep(100),
 	io:fwrite("About to exit...~n"),

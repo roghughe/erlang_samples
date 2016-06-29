@@ -39,6 +39,9 @@ find_head_example() ->
 
   Second = second(List),
 
+  Second = Second, % This is allowed... because they're the same
+  Second = 2,  %% This is allowed - the same value
+
   % Remember - this is the equivalent to ==
   Head =:= Head2.
 
