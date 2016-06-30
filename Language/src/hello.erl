@@ -18,7 +18,12 @@
 		 callsFunction/1,
 		 reverse_list/1,
 		 all/3,
-		 eitherOrBoth/2]).
+		 eitherOrBoth/2,
+	   all/0]).
+
+all() ->
+	all("Roger",{rectangle,23,4},[1,2,3,4,5,6]).
+
 
 all(Name,Point,List) ->
 	hello_world(),

@@ -1,7 +1,7 @@
 %%%-------------------------------------------------------------------
 %%% @author Roger
 %%% @copyright (C) 2016, <COMPANY>
-%%% @doc This file demonstrates how to do an 'if' statement
+%%% @doc This file demonstrates how to do an 'if' statement, how to use compiler options, the use of 'guards'
 %%%
 %%% @end
 %%% Created : 28. Jun 2016 22:08
@@ -25,7 +25,6 @@ compare_numbers() ->
   compare_chars('G'),
   A = 'A',
   compare_chars(A),
-
   ok.
 
 
