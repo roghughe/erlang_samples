@@ -9,7 +9,7 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([render/1,to_html/1,sum/1,sum2/1,sum3/1,reverse/1,tail_reverse/1,contains/2,sum4/1]).
+-export([render/1,to_html/1,sum/1,sum2/1,sum3/1,reverse/1,tail_reverse/1,contains/2,sum4/1,start_sum/0,start_tail_reverse/0,start_reverse/0]).
 
 	
 %% @doc Render the HTML to display an unordered list
@@ -26,11 +26,19 @@ to_html(Items) ->
 %% @doc Format the fist item in the list into a list item
 %% Recursively call item(...) for each successive list value
 %% Function clause is chosen by pattern matching
+%% -- This is an example of simple head recursion
 item([Item | TheRest]) ->
 	"<li>" ++ Item ++ "</li>~n" ++ item(TheRest);
 item([]) -> "".
 
-%% @doc Wrapper function for summing
+
+
+
+%% @doc Wrapper function for summing. This is an example of tail recursion.
+
+start_sum() ->
+	sum(42).
+
 sum(Number) ->
 	sum(Number,0).
 
@@ -49,7 +57,7 @@ sum2(Number) ->
 
 %% @doc recursive function for summing...
 %% Function clause is chosen using pattern matching.
-%% Note the ordering of the cluases is important when not using guards
+%% Note the ordering of the clauses is important when not using guards
 sum2(0,Total) ->
 	Total;
 sum2(N,Total)  ->
@@ -61,6 +69,10 @@ sum3(0) ->	0;
 sum3(N) ->
 	sum(N-1) + N.
 
+start_reverse() ->
+	reverse("Roger").
+
+
 %% @doc Reversing a list using recursion
 %% This is not so hot because of its quadratic execution time
 reverse([]) ->
@@ -70,6 +82,8 @@ reverse([X]) ->
 reverse([Item | TheRest]) -> 
 	reverse(TheRest) ++ [Item].
 
+start_tail_reverse() ->
+	tail_reverse("Roger").
 
 %% @doc Reversing a list using recursion
 %% This is better because of its linear execution time

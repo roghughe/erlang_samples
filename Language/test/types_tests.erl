@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 30. Jun 2016 13:25
 %%%-------------------------------------------------------------------
--module(types_test).
+-module(types_tests).
 -author("Roger").
 
 -include_lib("eunit/include/eunit.hrl").

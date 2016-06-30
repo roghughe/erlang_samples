@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 27. Jun 2016 17:05
 %%%-------------------------------------------------------------------
--module(bits_test).
+-module(bits_tests).
 -author("Roger").
 
 -include_lib("eunit/include/eunit.hrl").
