@@ -21,7 +21,7 @@
 
 %% Dummy entry point for testing
 rot_start() ->
-  io:fwrite("Result ~p~n",[rot("",13)]).
+  io:fwrite("Result ~p~n",[rot("Roger",13)]).
 
 %% @doc This is the main function, taking  string and encoding it.
 rot(String, Rot) when is_list(String), is_integer(Rot) ->

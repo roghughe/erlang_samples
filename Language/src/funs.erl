@@ -7,7 +7,8 @@
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([anon_fun/0,anon_fun2/0,anon_fun3/0,yes_no/3,local_fun/0,remote_module_fun/0,render/2,to_html/1]).
+-export([anon_fun/0,anon_fun2/0,anon_fun3/0,yes_no/3,local_fun/0,remote_module_fun/0,render/2,to_html/1,demo_alarm/0,
+	map/2, incr/1,sample_map_call/0,filter/2,sample_filter/0,fold/3,sum/0,max/0]).
 
 %% @doc An anonymous fun
 anon_fun() ->
@@ -27,7 +28,7 @@ anon_fun() ->
 
 	yes_no(Anonymous,false,false).
 	
-%% @doc Same anonymouse example using logic to replace the case
+%% @doc Same anonymous example using logic to replace the case
 anon_fun2() ->
 	Anon2 = fun(C,D) -> C or D end,
 	
@@ -38,13 +39,13 @@ anon_fun3() ->
 	yes_no(fun(C,D) -> C or D end,false,true).
 
 	
-%% @doc Local funs
+%% @doc Local funs - This references a function in the same module
 local_fun() ->
 	
 	Local = fun failing_or/2,
 	yes_no(Local,false,false).
 
-%% Remote module funs
+%% Remote module funs - This references a function in another module.
 remote_module_fun() ->
 	Funs = fun clause_case:either_or_both1/2,
 	yes_no(Funs,true,false).
@@ -59,7 +60,7 @@ yes_no(Funs,A,B) ->
 	end.
 
 %%% Closure example - it's about scope...
-%%% A varible defined in a function is carried over to a fun definition
+%%% A variable defined in a function is carried over to a fun definition
 
 %% @doc Example: Render some HTML
 %% The 'Text' vars value is avaible to he anonymous fun when it's called in the to_html/1 function.
@@ -73,6 +74,61 @@ render(Text,Em) ->
 to_html(EmphasisFun) ->
 	"<p>" ++ EmphasisFun() ++ "</p>~n".
 
+%%% Another Closure example from the erlang learn you some book.
+demo_alarm() ->
+
+	PrepareAlarm = fun(Room) ->
+		io:format("Alarm set in room: ~s~n",[Room]),
+		% Return a function...
+		fun()-> io:format("Alarm tripped in Room ~s",[Room])  end
+		end,
+
+	AlarmReady = PrepareAlarm("kitchen"),
+
+  AlarmReady().
+
+%% ====================================================================
+%%  These are examples of how to write generic functions - like Java
+%%  8 has got (and what this has probably had for longer)
+%% ====================================================================
+
+%% map examples
+map(_,[]) -> [];
+map(Function,[Head | Tail]) -> [Function(Head)|map(Function,Tail)].
+
+%% Sample functions
+incr(X) -> X + 1.
+%decr(X) -> X - 1.
+
+sample_map_call() ->
+	List = [1,2,3,4,5],
+	map(fun incr/1, List).
+
+% filter example using a Predicate
+filter(Pred,List) -> lists:reverse(filter(Pred,List,[])).
+
+filter(_,[],Acc) -> Acc;
+filter(Pred,[Head | Tail],Acc) ->
+	case Pred(Head) of
+		true -> filter(Pred, Tail,[Head|Acc]);
+		false -> filter(Pred, Tail,Acc)
+	end.
+
+sample_filter() ->
+	List = [0,1,2,3,4,5],
+	filter(fun(X) -> X rem 2 == 0 end,List).
+
+%% Fold function example
+fold(_,Start,[]) -> Start;
+fold(Fold,Start,[Head | Tail]) -> fold(Fold, Fold(Head,Start),Tail).
+
+sum() ->
+	List = [1,2,3],
+	fold(fun(A,B) -> A + B end, 0,List).
+
+max() ->
+	List = [4,5,3],
+	fold(fun(A,B) when A > B -> A; (_,B) -> B end,0,List).
 
 %% ====================================================================
 %% Internal functions
