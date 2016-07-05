@@ -59,7 +59,7 @@ map_for_anonymous_func_api_test() ->
 	List = [1,2,3],
 	?assertEqual([2,3,4],lists:map(fun(X) -> X+1 end, List)).
 
-% Filter function test
+% Filter function test using an anonymous Predicate
 filter_test() ->
 	List = [2,3,4,5,6,7,8],
 	?assertEqual([2,4,6,8],funs:filter(fun(X) -> X rem 2 == 0 end, List)).
